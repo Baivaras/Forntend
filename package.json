@@ -21,10 +21,12 @@
     "lint": "standard --verbose | snazzy",
     "lintdiff": "git diff --name-only --cached --relative | grep '\\.js$' | xargs standard | snazzy",
     "fixcode": "standard --fix",
-    "git-hook": "npm run lint -s && npm run test -s"
+    "git-hook": "npm run lint -s && npm run test -s",
+    "remotedev": "remotedev --hostname=localhost --port=8088"
   },
   "dependencies": {
     "apisauce": "^1.0.2",
+    "axios": "^0.19.0",
     "format-json": "^1.0.3",
     "identity-obj-proxy": "^3.0.0",
     "lodash": "^4.17.11",
@@ -35,6 +37,7 @@
     "react-native": "0.59.3",
     "react-native-config": "^0.11.7",
     "react-native-device-info": "^1.6.1",
+    "react-native-elements": "^1.1.0",
     "react-native-gesture-handler": "1.0.9",
     "react-native-i18n": "2.0.14",
     "react-native-vector-icons": "6.1.0",
@@ -42,9 +45,11 @@
     "react-navigation-redux-helpers": "^2.0.6",
     "react-redux": "^6.0.0",
     "redux": "^4.0.0",
+    "redux-devtools-extension": "^2.13.8",
     "redux-persist": "^5.10.0",
     "redux-saga": "^1.0.0",
     "reduxsauce": "1.0.1",
+    "remote-redux-devtools": "^0.5.16",
     "seamless-immutable": "^7.1.4"
   },
   "devDependencies": {
@@ -66,7 +71,9 @@
     "enzyme-adapter-react-16": "^1.1.0",
     "ignite-andross": "^4.0.5",
     "ignite-dev-screens": "2.4.5",
+    "ignite-elements": "^0.3.0",
     "ignite-i18n": "1.2.0",
+    "ignite-redux-devtools": "^0.0.4",
     "ignite-redux-persist": "1.1.2",
     "ignite-standard": "1.0.0",
     "ignite-vector-icons": "1.1.1",
@@ -79,6 +86,7 @@
     "reactotron-react-native": "^2.1.0",
     "reactotron-redux": "^2.1.0",
     "reactotron-redux-saga": "^3.0.0",
+    "remotedev-server": "^0.3.1",
     "snazzy": "^8.0.0",
     "standard": "10.0.2"
   },

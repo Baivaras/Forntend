@@ -1,15 +1,18 @@
 // a library to wrap and simplify api calls
 import apisauce from 'apisauce'
+import axios from 'axios'
+import getToken from '../Utils/Storage'
+const baseURL = 'http://192.168.1.120:8080/'
 
 // our "constructor"
-const create = (baseURL = 'https://api.github.com/') => {
+const create = () => {
   // ------
   // STEP 1
   // ------
   //
   // Create and configure an apisauce-based api object.
   //
-  const api = apisauce.create({
+  const api = axios.create({
     // base URL is read from the "constructor"
     baseURL,
     // here are some default headers
@@ -34,9 +37,25 @@ const create = (baseURL = 'https://api.github.com/') => {
   // Since we can't hide from that, we embrace it by getting out of the
   // way at this level.
   //
-  const getRoot = () => api.get('')
-  const getRate = () => api.get('rate_limit')
-  const getUser = (username) => api.get('search/users', {q: username})
+
+  // getToken().then((token) => {
+  //   setAuthToken(token);
+  // });
+
+  const setAuthToken = (token) => axios.defaults.headers.common['Authorization'] = 'Token ' + token // for all requests
+  const removeAuthToken = () => axios.defaults.headers.common['Authorization'] = '' // for all requests
+  const login = (username, password) => api.post('api/v1/operations/auth/login/', username, password)
+                .then(response => ({response}))
+                .catch(error => ({error}))
+                
+  // const register = (user) => api.post('api/register', user)
+  const forgotPassword = (data) => api.post('api/v1/auth/', data, {headers: {'Content-Type': 'text/plain', 'Accept': 'application/json, text/plain, */*'}})
+                        .then(response => ({response}))
+                        .catch(error => ({error}))
+
+  // const getAccount = () => api.get('api/account')
+  // const updateAccount = (account) => api.post('api/account', account)
+  // const changePassword = (newPassword) => api.post('api/account/change_password', newPassword, {headers: {'Content-Type': 'text/plain', 'Accept': 'application/json, text/plain, */*'}})
 
   // ------
   // STEP 3
@@ -52,13 +71,26 @@ const create = (baseURL = 'https://api.github.com/') => {
   //
   return {
     // a list of the API functions from step 2
-    getRoot,
-    getRate,
-    getUser
+    setAuthToken,
+    removeAuthToken,
+    login,
+    forgotPassword,
   }
+}
+
+const login = (username, password) => {
+  axios({
+    method: 'post',
+    url: baseURL + 'api/v1/operations/auth/login/',
+    data: {
+      username: username,
+      password: password
+    }
+  });
 }
 
 // let's return back our create method as the default.
 export default {
-  create
+  create,
+  login
 }
